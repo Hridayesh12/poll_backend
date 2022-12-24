@@ -1,0 +1,37 @@
+{
+  "name": "pollapp_backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hridayesh12/pollapp_backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Hridayesh12/pollapp_backend/issues"
+  },
+  "homepage": "https://github.com/Hridayesh12/pollapp_backend#readme",
+  "dependencies": {
+    "adm-zip": "^0.5.9",
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.19.2",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "exceljs": "^4.3.0",
+    "express": "^4.17.2",
+    "express-zip": "^3.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.1.5",
+    "nodemon": "^2.0.15",
+    "socket.io": "^4.4.1",
+    "xlsx": "^0.17.5",
+    "zip-a-folder": "^1.1.3"
+  }
+}
