@@ -7,9 +7,9 @@ const cors = require('cors');
 const server = http.createServer(app);
 const { addUser, removeUser, getUser, getUsersInLobby, addVotes } = require('./socket/users');
 const { addpoll, getVotes, removeLobby, removepoll} = require('./socket/votes');
+const port = process.env.PORT || 2000;
 const dotenv = require('dotenv');
 dotenv.config();
-const port = process.env.PORT || 2000;
 app.use(cors(
 	{
 		origin: process.env.CORS_ORIGIN,
