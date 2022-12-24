@@ -9,12 +9,22 @@ const { addUser, removeUser, getUser, getUsersInLobby, addVotes } = require('./s
 const { addpoll, getVotes, removeLobby, removepoll} = require('./socket/votes');
 const port = process.env.PORT || 2000;
 const dotenv = require('dotenv');
+const xlsx=require('xlsx');
+const mongoose = require("mongoose");
+var MongoClient=require('mongodb').MongoClient;
+const database=require('./db/conn');
+require('./model/usr');
+require('./model/voters');
+app.use(cookieParser());
+app.use(express.json())
+app.use(require("./router/auth"));
+app.use(require("./router/lob"));
+app.use(require("./router/polls"));
+app.use(require("./router/excel"));
+const path = require("path");
+const db = database.db;
 dotenv.config();
-const cors = require("cors");
-
-// Middleware
-app.use(express.json());
--app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: false }));
 app.use(
   cors({
     origin: ["https://pollapp-frontend.onrender.com"],
@@ -29,25 +39,6 @@ var io = require("socket.io")(server, {
 	  credentials: true
 	}
   });
-//io = io.listen(server)
-
-const xlsx=require('xlsx');
-app.use(cookieParser());
-
-const mongoose = require("mongoose");
-var MongoClient=require('mongodb').MongoClient;
-
-const database=require('./db/conn');
-require('./model/usr');
-require('./model/voters');
-app.use(express.json())
-app.use(require("./router/auth"));
-app.use(require("./router/lob"));
-app.use(require("./router/polls"));
-app.use(require("./router/excel"));
-const path = require("path");
-const db = database.db;
-
 
 
 let uuid ="";
