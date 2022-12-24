@@ -10,6 +10,10 @@ const { addpoll, getVotes, removeLobby, removepoll} = require('./socket/votes');
 const port = process.env.PORT || 2000;
 const dotenv = require('dotenv');
 dotenv.config();
+app.use((req, res, next) => {
+	res.header({"Access-Control-Allow-Origin": "*"});
+	next();
+  }) 
 app.use(cors(
 	{
 		origin: process.env.CORS_ORIGIN,
