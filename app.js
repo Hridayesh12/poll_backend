@@ -7,16 +7,16 @@ const server = http.createServer(app);
 const port = process.env.PORT || 2000;
 app.use(
   cors({
-    origin: '*',
 	  methods: ["GET", "POST","PUT","DELETE"],
-	  credentials: true
+	  credentials: true,
+	  origin: true,
   })
 );
 var io = require("socket.io")(server, {
 	cors: {
-		origin: '*',
 	  methods: ["GET", "POST","PUT"],
-	  credentials: true
+	  credentials: true,
+	  origin: true,
 	}
   });
   const cookieParser = require('cookie-parser');
