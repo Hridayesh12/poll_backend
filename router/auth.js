@@ -120,6 +120,8 @@ router.post('/slogin',(req,res)=>
                     res.cookie("sjwtoken", token, {
                         expires: new Date(Date.now() + 86400000),
                         httpOnly: true,
+						sameSite: 'none',
+						secure: true
                     });
 					//add a way to update voters with subject and poll
 					//
@@ -146,6 +148,8 @@ router.post('/slogin',(req,res)=>
 					res.cookie("sjwtoken",token,{
 						expires: new Date(Date.now()+86400000),
 						httpOnly:true,
+						sameSite: 'none',
+						secure: true
 					});
 					return res.status(200).json({message:"login successfull"})
 				}
@@ -178,6 +182,8 @@ router.post('/login',(req,res)=>
 					res.cookie("jwtoken",token,{
 						expires: new Date(Date.now()+86400000),
 						httpOnly:true,
+						sameSite: 'none',
+						secure: true
 					});
 					return res.status(200).json({message:"login successfull"})
 				}
