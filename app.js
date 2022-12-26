@@ -1,35 +1,42 @@
 const express = require("express");
 const http = require('http');
-const socketio = require('socket.io');
 const cors = require('cors');
-const app = express();
-const server = http.createServer(app);
+const cookieParser = require('cookie-parser');
+const path = require("path");
+const database=require('./db/conn');
+const xlsx=require('xlsx');
+//const server = http.createServer(app);
 const port = process.env.PORT || 2000;
+const dotenv = require('dotenv');
+dotenv.config();
+const app = express();
 app.use(
   cors({
-	  methods: ["GET", "POST","PUT","DELETE"],
-	  credentials: true,
-	  origin: true,
-  })
+    origin: process.env.CORS_ORIGIN,
+    methods: ['GET', 'POST'],
+    credentials: true,
+  }),
 );
-var io = require("socket.io")(server, {
-	cors: {
-	  methods: ["GET", "POST","PUT"],
-	  credentials: true,
-	  origin: true,
-	}
-  });
-  const cookieParser = require('cookie-parser');
-  const { addUser, removeUser, getUser, getUsersInLobby, addVotes } = require('./socket/users');
-  const { addpoll, getVotes, removeLobby, removepoll} = require('./socket/votes');
-  const dotenv = require('dotenv');
-  const xlsx=require('xlsx');
-  const mongoose = require("mongoose");
-  var MongoClient=require('mongodb').MongoClient;
-  const database=require('./db/conn');
-  require('./model/usr');
-  require('./model/voters');
-let uuid ="";
+app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({ extended: false}));
+app.use(require("./router/auth"));
+app.use(require("./router/lob"));
+app.use(require("./router/polls"));
+app.use(require("./router/excel"));
+database.connectDb()
+.then((result)=>{return app.listen(port, ()=>{console.log(`The server is up and running on port ${port}`)})})
+.catch((error)=>{return error});
+// var io = require("socket.io")(server, {
+// 	cors: {
+// 	  methods: ["GET", "POST","PUT"],
+// 	  credentials: true,
+// 	  origin: true,
+// 	}
+//   });
+
+  // const { addUser, removeUser, getUser, getUsersInLobby, addVotes } = require('./socket/users');
+  // const { addpoll, getVotes, removeLobby, removepoll} = require('./socket/votes');
 app.get("/lobbycreated", (req, res) => {
 	res.send("CREATE EVENT");
 });
@@ -48,8 +55,6 @@ app.get("/",(req,res)=>{
 // 	// console.log("server is running");
 // });
 
-
-server.listen(port, () =>  console.log(`Server has started.`));
 
 // io.on('connection',(socket)=>{
 // 	// console.log("Sussy imposter is amongus")
@@ -115,7 +120,7 @@ server.listen(port, () =>  console.log(`Server has started.`));
 // 	})
 // });
 
-// app.use(express.static(path.resolve(__dirname, "./client/build")));
-// app.get("*", function (request, response) {
-//   response.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
-// });
+app.use(express.static(path.resolve(__dirname, "./client/build")));
+app.get("*", function (request, response) {
+  response.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
+});
