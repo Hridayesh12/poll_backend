@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Hridayesh12/pollapp_backend#readme",
   "dependencies": {
+    "adm-zip": "^0.5.10",
     "bcrypt": "^5.0.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
