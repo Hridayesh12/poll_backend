@@ -108,36 +108,36 @@ router.put("/select", (req, res) => {
 	console.log(req.body);
 	Poll.findOneAndUpdate({ _id: req.body.puid, 'pollOption.optionArray': req.body.mer }, { $pull: { 'pollOption.$.optionArray': req.body.mer } }, { projection: { pollOption: { '$elemMatch': { optionArray: req.body.mer } } } }).then((saveditem) => {
 		if (saveditem) {
-			console.log("Yeo", saveditem);
+			// console.log("Yeo", saveditem);
 			var hehe = saveditem.pollOption[0].optionCorrect;
-			console.log("deleted one entry", hehe);
+			// console.log("deleted one entry", hehe);
 			if (hehe) {
 				console.log("okku", req.body);
 				Voters.findOneAndUpdate({ mail: req.body.mer, 'Subject.Marks.SubLobid': req.body.data }, { $inc: { 'Subject.$[outer].Marks.$[inner].StuMarks': -1 } }, { arrayFilters: [{ "inner.SubLobid": req.body.data }, { "outer.SubjectValue": req.body.subject }], new: true },).then((savedtitem) => {
 
-					console.log("finupdatereduce", savedtitem);
+					// console.log("finupdatereduce", savedtitem);
 				}
 				)
-				console.log("-1");
+				// console.log("-1");
 			}
 		}
 
 		Poll.findOneAndUpdate({ _id: req.body.puid, 'pollOption._id': req.body.opuid }, { $push: { 'pollOption.$.optionArray': req.body.mer } }, { projection: { pollOption: { '$elemMatch': { _id: req.body.opuid } } } }).then((saveditem) => {
 			if (saveditem) {
 				var hehe = saveditem.pollOption[0].optionCorrect;
-				//console.log("selected one entry",hehe);
+				// console.log("selected one entry", hehe);
 				if (hehe) {
 					Voters.findOneAndUpdate({ mail: req.body.mer, 'Subject.Marks.SubLobid': req.body.data }, { $inc: { 'Subject.$[outer].Marks.$[inner].StuMarks': +1 } }, { arrayFilters: [{ "inner.SubLobid": req.body.data }, { "outer.SubjectValue": req.body.subject }], new: true },).then((savedtitem) => {
-						//console.log("finupdateincrease",savedtitem); 
+						// console.log("finupdateincrease", savedtitem);
 					}
 					)
-					//console.log("+1"); 
+					// console.log("+1");
 				}
 			}
 		})
 		Lobby.updateOne({ lobbyId: req.body.data }, { $addToSet: { studentformId: req.body.mer, }, }, { new: true }).then((saveditem) => {
 			if (saveditem) {
-				//console.log("added the name into studentformId");
+				console.log("added the name into studentformId");
 			}
 		})
 	})
